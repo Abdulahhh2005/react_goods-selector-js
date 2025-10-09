@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
@@ -52,16 +53,8 @@ export const App = () => {
               }
             >
               <td>
-                {good === selectedGood ? (
-                  <button
-                    data-cy="RemoveButton"
-                    type="button"
-                    className="button is-info"
-                    onClick={handleRemoveSelection}
-                  >
-                    -
-                  </button>
-                ) : (
+                {selectedGood === '' ? (
+                  // когда ничего не выбрано — показываем AddButton в каждой строке
                   <button
                     data-cy="AddButton"
                     type="button"
@@ -70,9 +63,19 @@ export const App = () => {
                   >
                     +
                   </button>
-                )}
+                ) : good === selectedGood ? (
+                  // когда товар выбран — показываем RemoveButton только в этой строке
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    className="button is-info"
+                    onClick={handleRemoveSelection}
+                  >
+                    -
+                  </button>
+                ) : null}{' '}
+                {/* во всех остальных строках ничего не показываем */}
               </td>
-
               <td data-cy="GoodTitle" className="is-vcentered">
                 {good}
               </td>
