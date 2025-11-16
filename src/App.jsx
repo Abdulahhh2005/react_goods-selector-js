@@ -1,7 +1,7 @@
-/* eslint-disable no-nested-ternary */
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import cn from 'classnames';
 
 export const goods = [
   'Dumplings',
@@ -37,7 +37,7 @@ export const App = () => {
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={handleRemoveSelection}
+            onClick={() => handleRemoveSelection()}
           />
         )}
       </h1>
@@ -48,13 +48,24 @@ export const App = () => {
             <tr
               key={good}
               data-cy="Good"
-              className={
-                good === selectedGood ? 'has-background-success-light' : ''
-              }
+              // className={`${good === selectedGood && 'has-background-success-light'}`}
+              className={cn({
+                'has-background-success-light': good === selectedGood,
+              })}
             >
-              <td>
-                {selectedGood === '' ? (
-                  // когда ничего не выбрано — показываем AddButton в каждой строке
+              {good === selectedGood ? (
+                <td>
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    className="button is-info"
+                    onClick={() => handleRemoveSelection()}
+                  >
+                    -
+                  </button>
+                </td>
+              ) : (
+                <td>
                   <button
                     data-cy="AddButton"
                     type="button"
@@ -63,19 +74,9 @@ export const App = () => {
                   >
                     +
                   </button>
-                ) : good === selectedGood ? (
-                  // когда товар выбран — показываем RemoveButton только в этой строке
-                  <button
-                    data-cy="RemoveButton"
-                    type="button"
-                    className="button is-info"
-                    onClick={handleRemoveSelection}
-                  >
-                    -
-                  </button>
-                ) : null}{' '}
-                {/* во всех остальных строках ничего не показываем */}
-              </td>
+                </td>
+              )}
+
               <td data-cy="GoodTitle" className="is-vcentered">
                 {good}
               </td>
@@ -86,3 +87,17 @@ export const App = () => {
     </main>
   );
 };
+
+// Ключем може бути навіть слово, як в цьому
+// коді ми використовуємо при переборі слово.
+
+// handleSelectGood і handleRemoveSelection —
+// callback-функції для обробників подій.
+
+// onClick={() => handleRemoveSelection()}
+
+// можна без дужок бо функція не приймає аргументи
+// onClick={() => handleRemoveSelection}
+
+// Або так
+// onClick={handleRemoveSelection}
